@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUB CampusRide</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #123b68;
+            color: white;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+        }
+
+        .card h3 {
+            color: #475569;
+        }
+
+        .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0f766e;
+        }
+
+        .notice {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 650px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>PUB CampusRide 🚌</h1>
+        <p>Campus Transport Scheduling Portal</p>
+    </header>
+
+    <main>
+        <h2>Transport Dashboard</h2>
+        <p>Welcome to PUB CampusRide!</p>
+
+        <section class="cards">
+            <div class="card">
+                <h3>Total Buses</h3>
+                <div class="number">--</div>
+            </div>
+
+            <div class="card">
+                <h3>Active Routes</h3>
+                <div class="number">--</div>
+            </div>
+
+            <div class="card">
+                <h3>Today's Trips</h3>
+                <div class="number">--</div>
+            </div>
+        </section>
+
+        <section class="notice">
+            <h2>Transport Notices</h2>
+            <p>No notices available yet.</p>
+        </section>
+    </main>
+
+</body>
+</html>
