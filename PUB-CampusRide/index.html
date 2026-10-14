@@ -1,105 +1,457 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PUB CampusRide</title>
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-        }
-
-        header {
-            background: #123b68;
-            color: white;
-            padding: 25px;
-        }
-
-        header h1 {
-            margin: 0 0 8px;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-        }
-
-        .card h3 {
-            color: #475569;
-        }
-
-        .number {
-            font-size: 28px;
-            font-weight: bold;
-            color: #0f766e;
-        }
-
-        .notice {
-            background: white;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 12px;
-        }
-
-        @media (max-width: 650px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUB CampusRide</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f3f6fb;color:#1e293b}
+header{background:#123b70;color:#fff;padding:22px 6%}
+header h1{font-size:27px;margin-bottom:7px}
+header p{color:#dbeafe}
+nav{background:#fff;padding:14px 6%;display:flex;flex-wrap:wrap;gap:10px;box-shadow:0 2px 8px #0000000d}
+nav button,.btn{border:0;background:#e8eef8;color:#123b70;padding:11px 16px;border-radius:7px;cursor:pointer;font-weight:bold}
+nav button:hover,nav button.active,.btn.primary{background:#123b70;color:#fff}
+main{max-width:1150px;margin:30px auto;padding:0 20px}
+.page{display:none}.page.active{display:block}
+.page-title{margin-bottom:20px}.page-title h2{margin-bottom:8px}.page-title p,.muted{color:#64748b;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:30px}
+.card,.panel{background:#fff;padding:22px;border-radius:12px;box-shadow:0 3px 12px #00000008}
+.card h3{font-size:15px;color:#64748b;margin-bottom:12px}.number{font-size:28px;color:#123b70;font-weight:bold}
+.panel{margin-bottom:22px}.panel h3{margin-bottom:15px}
+.schedule-buttons{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.schedule-buttons button{background:#1769aa;color:#fff;border:0;padding:12px 18px;border-radius:7px;cursor:pointer}
+.schedule-buttons button.selected{background:#123b70;outline:3px solid #bfdbfe}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;margin:8px 0 16px;font-size:15px}
+label{font-weight:bold;font-size:14px;display:block}
+.table-wrap{width:100%;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px}
+th,td{padding:12px;text-align:left;border-bottom:1px solid #e2e8f0}
+th{background:#eaf1fb;color:#123b70}
+.badge{display:inline-block;background:#fff3cd;color:#805b00;padding:6px 10px;border-radius:20px;font-size:12px}
+.notice{padding:15px;border-left:4px solid #1769aa;background:#eff6ff;border-radius:5px;margin-bottom:12px;line-height:1.6}
+.btn{margin:2px}.btn.danger{background:#fee2e2;color:#991b1b}
+footer{margin-top:40px;padding:22px;text-align:center;background:#123b70;color:white}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 16px}
+.small-note{font-size:13px;color:#64748b;line-height:1.6;margin-top:12px}
+@media(max-width:600px){header h1{font-size:22px}main{margin-top:20px;padding:0 12px}.panel{padding:16px}}
+</style>
 </head>
-
 <body>
+<header>
+  <h1>🚌 PUB CampusRide</h1>
+  <p>Pundra University Campus Transport Portal</p>
+</header>
 
-    <header>
-        <h1>PUB CampusRide 🚌</h1>
-        <p>Campus Transport Scheduling Portal</p>
-    </header>
+<nav>
+  <button class="active" data-page="dashboard" onclick="showPage('dashboard',this)">Dashboard</button>
+  <button data-page="schedule" onclick="showPage('schedule',this)">Bus Schedule</button>
+  <button data-page="routes" onclick="showPage('routes',this)">Routes & Stops</button>
+  <button data-page="drivers" onclick="showPage('drivers',this)">Driver Management</button>
+  <button data-page="buses" onclick="showPage('buses',this)">Bus Management</button>
+  <button data-page="notices" onclick="showPage('notices',this)">Notices</button>
+  <button data-page="about" onclick="showPage('about',this)">About</button>
+</nav>
 
-    <main>
-        <h2>Transport Dashboard</h2>
-        <p>Welcome to PUB CampusRide!</p>
+<main>
+<section id="dashboard" class="page active">
+  <div class="page-title"><h2>Welcome to CampusRide 👋</h2><p>Find bus schedules, explore routes and manage transport information from one place.</p></div>
+  <div class="cards">
+    <div class="card"><h3>Schedule Types</h3><div class="number">02</div><p class="muted">Regular & Exam</p></div>
+    <div class="card"><h3>Driver Records</h3><div class="number" id="driverCount">0</div><p class="muted">Drivers added in this browser</p></div>
+    <div class="card"><h3>Bus Records</h3><div class="number" id="busCount">0</div><p class="muted">Buses added in this browser</p></div>
+    <div class="card"><h3>Transport Updates</h3><div class="number">Notice</div><p class="muted">Read transport announcements</p></div>
+  </div>
+  <div class="panel"><h3>Quick Access</h3><p class="muted">Open the routine you need.</p>
+    <div class="schedule-buttons">
+      <button onclick="openSchedule('regular')">Regular Schedule</button>
+      <button onclick="openSchedule('exam')">Exam Schedule</button>
+      <button onclick="showPage('drivers')">Driver Management</button>
+      <button onclick="showPage('buses')">Bus Management</button>
+    </div>
+  </div>
+  <div class="panel"><h3>📢 Transport Notice</h3><div class="notice">Welcome to PUB CampusRide! Please check the correct routine before travelling.</div>
+  <p class="small-note">Demo version: official schedule times and routes still need to be entered after verifying the university's timetable.</p></div>
+</section>
 
-        <section class="cards">
-            <div class="card">
-                <h3>Total Buses</h3>
-                <div class="number">--</div>
-            </div>
+<section id="schedule" class="page">
+  <div class="page-title"><h2>🚌 Bus Schedule</h2><p>Select a routine to view its timetable.</p></div>
+  <div class="panel">
+    <div class="schedule-buttons">
+      <button id="regularBtn" class="selected" onclick="selectSchedule('regular')">Regular Schedule</button>
+      <button id="examBtn" onclick="selectSchedule('exam')">Exam Schedule</button>
+    </div>
+    <h3 id="scheduleHeading">Regular Bus Schedule</h3>
+    <p id="scheduleDescription" class="muted">Regular student bus departure times. Dates are intentionally omitted.</p><br>
+    <div id="scheduleContent"></div>
+    <p class="small-note">নোট: ছবির রুটিন থেকে তারিখ বাদ দিয়ে সময় ও বাস নম্বর দেওয়া হয়েছে। কর্তৃপক্ষের কারণে সময় পরিবর্তন হতে পারে।</p>
+  </div>
+</section>
 
-            <div class="card">
-                <h3>Active Routes</h3>
-                <div class="number">--</div>
-            </div>
+<section id="routes" class="page">
+  <div class="page-title"><h2>📍 Routes & Stops</h2><p>Search route or stop information.</p></div>
+  <div class="panel">
+    <label for="routeSearch">Search Route or Stop</label>
+    <input id="routeSearch" placeholder="Type a route or stop name..." oninput="searchRoutes()">
+    <div id="routeResults" class="muted">Start typing to search.</div>
+  </div>
+  <div class="panel"><h3>Route Information</h3><p class="muted">Verified route names and stop sequences will be added from the official transport routine.</p></div>
+</section>
 
-            <div class="card">
-                <h3>Today's Trips</h3>
-                <div class="number">--</div>
-            </div>
-        </section>
+<section id="drivers" class="page">
+  <div class="page-title"><h2>👨‍✈️ Driver Management</h2><p>Add, search, edit and delete bus driver records.</p></div>
+  <div class="panel">
+    <h3 id="driverFormTitle">Add New Driver</h3>
+    <form id="driverForm">
+      <div class="form-grid">
+        <div><label for="driverId">Driver ID</label><input id="driverId" placeholder="Example: DR-001" required></div>
+        <div><label for="driverName">Driver Name</label><input id="driverName" placeholder="Enter driver name" required></div>
+        <div><label for="driverPhone">Phone Number</label><input id="driverPhone" type="tel" placeholder="Enter phone number" required></div>
+        <div><label for="driverLicense">Driving License Number</label><input id="driverLicense" placeholder="Enter license number" required></div>
+        <div><label for="driverBus">Assigned Bus Number</label><input id="driverBus" placeholder="Example: BUS-01" required></div>
+        <div><label for="driverExperience">Experience (Years)</label><input id="driverExperience" type="number" min="0" max="70" placeholder="Years of experience" required></div>
+        <div><label for="driverStatus">Status</label><select id="driverStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+      </div>
+      <button class="btn primary" id="driverSubmit" type="submit">Add Driver</button>
+      <button class="btn" type="button" onclick="resetDriverForm()">Clear Form</button>
+    </form>
+    <p class="small-note">Use sample/fake information for testing. This demo stores records only in this browser and is not a secure production database.</p>
+  </div>
+  <div class="panel">
+    <h3>Driver List</h3>
+    <label for="driverSearch">Search by Driver Name or ID</label>
+    <input id="driverSearch" placeholder="Type name or driver ID...">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Driver ID</th><th>Name</th><th>Phone</th><th>License</th><th>Bus</th><th>Experience</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="driverTable"><tr><td colspan="8">No drivers added yet.</td></tr></tbody>
+    </table></div>
+  </div>
+</section>
 
-        <section class="notice">
-            <h2>Transport Notices</h2>
-            <p>No notices available yet.</p>
-        </section>
-    </main>
 
+<section id="buses" class="page">
+  <div class="page-title">
+    <h2>🚌 Bus Management</h2>
+    <p>Add, search, edit and manage university bus records.</p>
+  </div>
+
+  <div class="panel">
+    <h3 id="busFormTitle">Add New Bus</h3>
+    <form id="busForm">
+      <div class="form-grid">
+        <div><label for="busId">Bus Number / ID</label><input id="busId" placeholder="Example: BUS-01" required></div>
+        <div><label for="busModel">Bus Model / Name</label><input id="busModel" placeholder="Enter bus model or name" required></div>
+        <div><label for="busCapacity">Passenger Capacity</label><input id="busCapacity" type="number" min="1" max="200" placeholder="Example: 40" required></div>
+        <div><label for="busRoute">Assigned Route</label><input id="busRoute" placeholder="Enter route name" required></div>
+        <div><label for="busDriver">Assigned Driver ID</label><input id="busDriver" placeholder="Example: DR-001"></div>
+        <div><label for="busStatus">Bus Status</label>
+          <select id="busStatus">
+            <option value="Active">Active</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Out of Service">Out of Service</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn primary" id="busSubmit" type="submit">Add Bus</button>
+      <button class="btn" type="button" onclick="resetBusForm()">Clear Form</button>
+    </form>
+    <p class="small-note">Use sample information for testing. This demo saves bus records in this browser only.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Bus List</h3>
+    <label for="busSearch">Search by Bus Number, Model or Route</label>
+    <input id="busSearch" placeholder="Type bus ID, model or route...">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Bus ID</th><th>Model / Name</th><th>Capacity</th><th>Route</th><th>Driver ID</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="busTable"><tr><td colspan="7">No buses added yet.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="notices" class="page">
+  <div class="page-title"><h2>📢 Transport Notices</h2><p>Important information about university transport.</p></div>
+  <div class="panel">
+    <div class="notice"><strong>Welcome to PUB CampusRide</strong><br>Check the correct routine before planning your trip.</div>
+    <div class="notice"><strong>Schedule Verification</strong><br>Regular and exam schedules are shown separately to avoid confusion.</div>
+    <p class="small-note">These are demonstration notices. Live notifications require a backend or notification service.</p>
+  </div>
+</section>
+
+<section id="about" class="page">
+  <div class="page-title"><h2>About CampusRide</h2><p>A campus transportation information portal.</p></div>
+  <div class="panel"><h3>Our Goal</h3><p class="muted">PUB CampusRide aims to make university transportation information easier to access. Students can check schedules, explore routes and read transport notices.</p><br>
+  <h3>Planned Features</h3><p class="muted">• Regular and exam schedules<br>• Route and stop information<br>• Driver management<br>• Bus management<br>• Trip scheduling<br>• Breakdown reporting<br>• Student feedback and transport reports</p></div>
+</section>
+</main>
+<footer><p>© 2026 PUB CampusRide | Campus Transportation Portal</p></footer>
+
+<script>
+function showPage(pageId, button) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  const targetButton = button || document.querySelector('nav button[data-page="' + pageId + '"]');
+  if (targetButton) targetButton.classList.add('active');
+  if (pageId === 'drivers') renderDrivers();
+}
+function openSchedule(type) { showPage('schedule'); selectSchedule(type); }
+function scheduleTable(title, headers, rows) {
+  return '<div class="panel"><h3>' + title + '</h3><div class="table-wrap"><table><thead><tr>' +
+    headers.map(h => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' +
+    rows.map(row => '<tr>' + row.map(cell => '<td>' + cell + '</td>').join('') + '</tr>').join('') +
+    '</tbody></table></div></div>';
+}
+function selectSchedule(type) {
+  document.getElementById('scheduleHeading').textContent = type === 'regular' ? 'Regular Bus Schedule' : 'Exam Bus Schedule';
+  document.getElementById('scheduleDescription').textContent = type === 'regular'
+    ? 'Regular student bus departure times (dates omitted).'
+    : 'Examination-day bus departure times (dates omitted).';
+  document.getElementById('regularBtn').classList.toggle('selected', type === 'regular');
+  document.getElementById('examBtn').classList.toggle('selected', type === 'exam');
+
+  const content = document.getElementById('scheduleContent');
+  if (type === 'regular') {
+    const headers = ['বার / দিন', 'ক্যাম্পাস থেকে ছাড়ার সময়', 'শেরপুর', 'বি-রক', 'বানানী', 'গোবিন্দগঞ্জ', 'মোকামতলা', 'গাবতলী', 'সাতমাথা', 'দুপচাঁচিয়া'];
+    const rows = [
+      ['শুক্রবার', 'দুপুর ১:০৫', '—', '—', 'সকাল ৮:৩০', 'সকাল ৮:২৫', 'সকাল ৮:৪০', '—', 'সকাল ৮:৪০', '—'],
+      ['শুক্রবার', '—', '—', '—', 'দুপুর ১:৫৫', '—', '—', '—', 'সকাল ১০:০৫', '—'],
+      ['শুক্রবার', 'বিকাল ৪:১৫', 'গোবিন্দগঞ্জের বাস যাবে', '—', '—', '—', '—', '—', 'দুপুর ২:০৫', '—'],
+      ['শনিবার', 'দুপুর ১:২০', 'সকাল ৮:০০', 'সকাল ৮:২৫', 'সকাল ৮:৩০', 'সকাল ৮:২৫', 'সকাল ৮:৪০', 'সকাল ৮:২০', 'সকাল ৮:৪০', 'সকাল ৮:১৫'],
+      ['শনিবার', 'বিকাল ৪:১৫', 'গোবিন্দগঞ্জের বাস যাবে', '—', 'দুপুর ১২:১০', '—', '—', '—', 'সকাল ৯:২৫', '—'],
+      ['শনিবার', 'বিকাল ৫:১৫', '—', '—', 'দুপুর ১:৫০', '—', '—', '—', 'দুপুর ১২:২০', '—'],
+      ['শনিবার', '—', '—', '—', '—', '—', '—', '—', 'দুপুর ১:৪০', '—'],
+      ['রবিবার–বুধবার', 'দুপুর ১:২০', 'সকাল ৮:০০', 'সকাল ৮:২৫', 'সকাল ৮:৩০', 'সকাল ৮:২৫', 'সকাল ৮:৪০', 'সকাল ৮:২০', 'সকাল ৯:২৫', 'সকাল ৮:১৫'],
+      ['রবিবার–বুধবার', 'বিকাল ৪:১৫', '—', '—', 'দুপুর ১:৫০', '—', '—', '—', 'দুপুর ১:৪০', '—']
+    ];
+    content.innerHTML = scheduleTable('নিয়মিত বাসের সময়সূচি', headers, rows);
+  } else {
+    const morningHeaders = ['স্টপ / রুট', 'বাস নম্বর', 'বাস ছাড়ার সময়'];
+    const morningRows = [
+      ['সাতমাথা', '৩, ১০', 'সকাল ৯:৩০'],
+      ['বানানী', '৪', 'সকাল ৯:২০'],
+      ['মোকামতলা', '৪', 'সকাল ৯:৪০'],
+      ['গোবিন্দগঞ্জ', '৮', 'সকাল ৯:২০'],
+      ['গাবতলী', '৫', 'সকাল ৯:১০'],
+      ['শেরপুর', '৭', 'সকাল ৯:০০'],
+      ['বি-রক', '২', 'সকাল ৯:১০'],
+      ['দুপচাঁচিয়া', '৯', 'সকাল ৯:১৫'],
+      ['PUB ক্যাম্পাস থেকে ছাড়বে', '—', 'দুপুর ১২:১৫']
+    ];
+    const afternoonHeaders = ['স্টপ / রুট', 'বাস নম্বর', 'বাস ছাড়ার সময়'];
+    const afternoonRows = [
+      ['সাতমাথা', '৬, ১০', 'দুপুর ১:৩০'],
+      ['বানানী', '৮', 'দুপুর ১:২০'],
+      ['মোকামতলা', '৮', 'দুপুর ১:৩৫'],
+      ['গোবিন্দগঞ্জ', '৮', 'দুপুর ১:২০'],
+      ['গাবতলী', '৫', 'দুপুর ১:১০'],
+      ['শেরপুর', '৭', 'দুপুর ১:০৫'],
+      ['বি-রক', '২', 'দুপুর ১:২০'],
+      ['দুপচাঁচিয়া', '৯', 'দুপুর ১:০৫'],
+      ['PUB ক্যাম্পাস থেকে ছাড়বে', '—', 'বিকাল ৪:১৫']
+    ];
+    const specialHeaders = ['বার', 'সাতমাথা', 'বানানী', 'গোবিন্দগঞ্জ', 'মোকামতলা', 'PUB থেকে ছাড়বে'];
+    const specialRows = [
+      ['শুক্রবার (সকাল)', 'সকাল ৯:৩০ · বাস ৯', 'সকাল ৯:২০ · বাস ৮', '—', '—', 'দুপুর ১২:১৫'],
+      ['শনিবার (সকাল)', 'সকাল ৯:৩০ · বাস ৩, ৬, ১০', 'সকাল ৯:২০ · বাস ৮', '—', '—', 'দুপুর ১২:১৫'],
+      ['শুক্রবার (বিকাল)', 'দুপুর ২:৩০ · বাস ২, ৫, ৯', 'দুপুর ২:২০ · বাস ৪, ৬', 'দুপুর ২:২০ · বাস ৩', 'দুপুর ২:০৫ · বাস ৩', 'বিকাল ৪:৪৫'],
+      ['শনিবার (বিকাল)', 'দুপুর ২:৩০ · বাস ৬, ১০', 'দুপুর ২:২০ · বাস ২, ৪', 'দুপুর ২:২০ · বাস ৩', 'দুপুর ২:০৫ · বাস ৩', 'বিকাল ৪:৪৫']
+    ];
+    content.innerHTML =
+      scheduleTable('সকালের পরীক্ষা (১০:৩০–১২:০০)', morningHeaders, morningRows) +
+      scheduleTable('বিকালের পরীক্ষা (২:৩০–৪:০০)', afternoonHeaders, afternoonRows) +
+      scheduleTable('শুক্রবার ও শনিবারের বিশেষ পরীক্ষার রুটিন', specialHeaders, specialRows);
+  }
+}
+selectSchedule('regular');
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function searchRoutes() {
+  const value = document.getElementById('routeSearch').value.trim();
+  const results = document.getElementById('routeResults');
+  results.innerHTML = value ? '<div class="notice">You searched for: <strong>' + escapeHTML(value) + '</strong><br><br>Verified route data has not been added yet.</div>' : 'Start typing to search.';
+}
+
+// Driver records are saved in this browser only.
+let drivers = [];
+try { drivers = JSON.parse(localStorage.getItem('pubCampusDrivers') || '[]'); } catch (e) { drivers = []; }
+let editingDriverId = null;
+const driverForm = document.getElementById('driverForm');
+const driverTable = document.getElementById('driverTable');
+const driverSearch = document.getElementById('driverSearch');
+
+function saveDrivers() {
+  localStorage.setItem('pubCampusDrivers', JSON.stringify(drivers));
+  document.getElementById('driverCount').textContent = drivers.length;
+}
+function renderDrivers() {
+  const keyword = driverSearch.value.toLowerCase().trim();
+  const filtered = drivers.filter(d => d.name.toLowerCase().includes(keyword) || d.id.toLowerCase().includes(keyword));
+  if (!filtered.length) {
+    driverTable.innerHTML = '<tr><td colspan="8">' + (drivers.length ? 'No matching drivers found.' : 'No drivers added yet.') + '</td></tr>';
+  } else {
+    driverTable.innerHTML = filtered.map(d => '<tr>' +
+      '<td>' + escapeHTML(d.id) + '</td><td>' + escapeHTML(d.name) + '</td>' +
+      '<td>' + escapeHTML(d.phone) + '</td><td>' + escapeHTML(d.license) + '</td>' +
+      '<td>' + escapeHTML(d.bus) + '</td><td>' + escapeHTML(d.experience) + ' years</td>' +
+      '<td><span class="badge">' + escapeHTML(d.status) + '</span></td><td>' +
+      '<button class="btn" onclick="editDriverById(\'' + encodeURIComponent(d.id) + '\')">Edit</button>' +
+      '<button class="btn danger" onclick="deleteDriverById(\'' + encodeURIComponent(d.id) + '\')">Delete</button></td></tr>').join('');
+  }
+  document.getElementById('driverCount').textContent = drivers.length;
+}
+driverForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const driver = {
+    id: document.getElementById('driverId').value.trim(),
+    name: document.getElementById('driverName').value.trim(),
+    phone: document.getElementById('driverPhone').value.trim(),
+    license: document.getElementById('driverLicense').value.trim(),
+    bus: document.getElementById('driverBus').value.trim(),
+    experience: document.getElementById('driverExperience').value,
+    status: document.getElementById('driverStatus').value
+  };
+  const duplicate = drivers.some(d => d.id.toLowerCase() === driver.id.toLowerCase() && d.id !== editingDriverId);
+  if (duplicate) { alert('This Driver ID already exists. Please use a unique ID.'); return; }
+  if (editingDriverId !== null) {
+    drivers = drivers.map(d => d.id === editingDriverId ? driver : d);
+  } else {
+    drivers.push(driver);
+  }
+  saveDrivers();
+  resetDriverForm();
+  renderDrivers();
+  alert('Driver information saved successfully!');
+});
+function editDriverById(encodedId) {
+  const id = decodeURIComponent(encodedId);
+  const d = drivers.find(item => item.id === id);
+  if (!d) return;
+  editingDriverId = d.id;
+  document.getElementById('driverId').value = d.id;
+  document.getElementById('driverName').value = d.name;
+  document.getElementById('driverPhone').value = d.phone;
+  document.getElementById('driverLicense').value = d.license;
+  document.getElementById('driverBus').value = d.bus;
+  document.getElementById('driverExperience').value = d.experience;
+  document.getElementById('driverStatus').value = d.status;
+  document.getElementById('driverId').readOnly = true;
+  document.getElementById('driverFormTitle').textContent = 'Edit Driver';
+  document.getElementById('driverSubmit').textContent = 'Update Driver';
+  document.getElementById('driverForm').scrollIntoView({behavior:'smooth'});
+}
+function deleteDriverById(encodedId) {
+  const id = decodeURIComponent(encodedId);
+  if (!confirm('Are you sure you want to delete this driver?')) return;
+  drivers = drivers.filter(d => d.id !== id);
+  if (editingDriverId === id) resetDriverForm();
+  saveDrivers();
+  renderDrivers();
+}
+function resetDriverForm() {
+  driverForm.reset();
+  editingDriverId = null;
+  document.getElementById('driverId').readOnly = false;
+  document.getElementById('driverFormTitle').textContent = 'Add New Driver';
+  document.getElementById('driverSubmit').textContent = 'Add Driver';
+}
+driverSearch.addEventListener('input', renderDrivers);
+renderDrivers();
+
+
+// Bus Management System
+let buses = [];
+try { buses = JSON.parse(localStorage.getItem('pubCampusBuses') || '[]'); } catch (e) { buses = []; }
+let editingBusId = null;
+const busForm = document.getElementById('busForm');
+const busTable = document.getElementById('busTable');
+const busSearch = document.getElementById('busSearch');
+
+function saveBuses() {
+  localStorage.setItem('pubCampusBuses', JSON.stringify(buses));
+  document.getElementById('busCount').textContent = buses.length;
+}
+function renderBuses() {
+  const keyword = busSearch.value.toLowerCase().trim();
+  const filtered = buses.filter(b =>
+    b.id.toLowerCase().includes(keyword) ||
+    b.model.toLowerCase().includes(keyword) ||
+    b.route.toLowerCase().includes(keyword)
+  );
+  if (!filtered.length) {
+    busTable.innerHTML = '<tr><td colspan="7">' + (buses.length ? 'No matching buses found.' : 'No buses added yet.') + '</td></tr>';
+  } else {
+    busTable.innerHTML = filtered.map(b => '<tr>' +
+      '<td>' + escapeHTML(b.id) + '</td><td>' + escapeHTML(b.model) + '</td>' +
+      '<td>' + escapeHTML(b.capacity) + '</td><td>' + escapeHTML(b.route) + '</td>' +
+      '<td>' + escapeHTML(b.driver || 'Not assigned') + '</td><td><span class="badge">' + escapeHTML(b.status) + '</span></td><td>' +
+      '<button class="btn" onclick="editBusById(\'' + encodeURIComponent(b.id) + '\')">Edit</button>' +
+      '<button class="btn danger" onclick="deleteBusById(\'' + encodeURIComponent(b.id) + '\')">Delete</button></td></tr>'
+    ).join('');
+  }
+  document.getElementById('busCount').textContent = buses.length;
+}
+busForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const bus = {
+    id: document.getElementById('busId').value.trim(),
+    model: document.getElementById('busModel').value.trim(),
+    capacity: document.getElementById('busCapacity').value,
+    route: document.getElementById('busRoute').value.trim(),
+    driver: document.getElementById('busDriver').value.trim(),
+    status: document.getElementById('busStatus').value
+  };
+  const duplicate = buses.some(b => b.id.toLowerCase() === bus.id.toLowerCase() && b.id !== editingBusId);
+  if (duplicate) { alert('This Bus ID already exists. Please use a unique ID.'); return; }
+  if (editingBusId !== null) {
+    buses = buses.map(b => b.id === editingBusId ? bus : b);
+  } else {
+    buses.push(bus);
+  }
+  saveBuses();
+  resetBusForm();
+  renderBuses();
+  alert('Bus information saved successfully!');
+});
+function editBusById(encodedId) {
+  const id = decodeURIComponent(encodedId);
+  const b = buses.find(item => item.id === id);
+  if (!b) return;
+  editingBusId = b.id;
+  document.getElementById('busId').value = b.id;
+  document.getElementById('busId').readOnly = true;
+  document.getElementById('busModel').value = b.model;
+  document.getElementById('busCapacity').value = b.capacity;
+  document.getElementById('busRoute').value = b.route;
+  document.getElementById('busDriver').value = b.driver;
+  document.getElementById('busStatus').value = b.status;
+  document.getElementById('busFormTitle').textContent = 'Edit Bus';
+  document.getElementById('busSubmit').textContent = 'Update Bus';
+  document.getElementById('busForm').scrollIntoView({behavior:'smooth'});
+}
+function deleteBusById(encodedId) {
+  const id = decodeURIComponent(encodedId);
+  if (!confirm('Are you sure you want to delete this bus?')) return;
+  buses = buses.filter(b => b.id !== id);
+  if (editingBusId === id) resetBusForm();
+  saveBuses();
+  renderBuses();
+}
+function resetBusForm() {
+  busForm.reset();
+  editingBusId = null;
+  document.getElementById('busId').readOnly = false;
+  document.getElementById('busFormTitle').textContent = 'Add New Bus';
+  document.getElementById('busSubmit').textContent = 'Add Bus';
+}
+busSearch.addEventListener('input', renderBuses);
+renderBuses();
+
+
+</script>
 </body>
 </html>
